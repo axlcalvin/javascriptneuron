@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Form Rekruitasi</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- END BOOTSTRAP -->
+	
+</head>
+<body>
+	<div class="container-fluid">
+		<h1 class="text-center">Form Rekruitasi</h1>
+		<hr>
+		<form id="rekruitasi-form">
+		  <div class="form-group">
+			<label for="exampleFormControlInput1">Full Name*</label>
+			<input type="text" class="form-control" id="full_name" name="full_name" placeholder="Masukan nama lengkap" required>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleFormControlInput1">Email*</label>
+			<input type="email" class="form-control" id="email" name="email" placeholder="Masukan email" required>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleFormControlInput1">Phone Number*</label>
+			<input type="text" class="form-control" id="phone" name="phone" placeholder="Masukan nomor telepon" required>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleFormControlSelect1">Vacancy*</label>
+			<select class="form-select form-control" aria-label="Default select example" name="lowongan" id="lowongan">
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleFormControlSelect2">Position*</label>
+			<select class="form-select form-control" aria-label="Default select example" name="posisi" id="posisi">
+			</select>
+		  </div>
+		  <input class="btn btn-primary" type="submit" name="submit" value="Kirim">
+		</form>
+		<hr>
+		<div class="container-fluid" id="result-form">
+			
+		</div>
+	</div>
+	
+	<script>
+	
+	var pendaftarData = [];
+      
+	var vacancies = [
+		{ nama: "Junior Programmer", kuota: 4 },
+		{ nama: "System Administrator", kuota: 2 },
+		{ nama: "System Analyst", kuota: 5 },
+		{ nama: "Project Manager", kuota: 0 }
+	];	
+	
+	var selectVacancy = document.getElementById('lowongan');
+	
+	vacancies.forEach(function (lowongan) {
+		var optionVacancy = document.createElement("option");
+		optionVacancy.text = lowongan.nama;
+		selectVacancy.appendChild(optionVacancy);
+	});	
+	
+	var positions = ['Bandung', 'Jakarta', 'Bogor', 'Semarang'];
+	
+	var selectPosition = document.getElementById('posisi');
+	
+	positions.forEach(function (posisi) {
+		var optionPosition = document.createElement("option");
+		optionPosition.text = posisi;
+		selectPosition.appendChild(optionPosition);
+	});
+	
+	
+	
+	
+    $(document).ready(function() {
+      $('#rekruitasi-form').submit(function(event) {
+        event.preventDefault();
+        var name = $('#full_name').val();
+        var email = $('#email').val();
+		var phone = $('#phone').val();
+		var vacancy = $('#lowongan').val();
+		var position = $('#posisi').val();
+		
+		if (name === "" || email === "" || phone === "" || vacancy === "" || position === "") {
+		  alert("Harap isi semua kolom!");
+		  return;
+		}
+	  
+		const emailTerdaftar = pendaftarData.find(function (pendaftar) {
+		  return pendaftar.email === email;
+		});
+	  
+		if (emailTerdaftar) {
+		  alert("Email sudah terdaftar!");
+		  return;
+		}
+	  
+		const lowonganTerpilih = vacancies.find(function (lowongan) {
+		  return lowongan.nama === vacancy;
+		});
+	  
+		if (!lowonganTerpilih) {
+		  alert("Lowongan tidak valid!");
+		  return;
+		}
+	  
+		if (lowonganTerpilih.kuota === 0) {
+		  alert("Mohon maaf, rekrutasi sudah penuh dan tidak dapat dipilih.");
+		  return;
+		}
+	  
+		if (lowonganTerpilih.kuota >= 3) {
+		  alert("Anda dapat memilih lowongan ini");
+		} else {
+		  const kuotaTersisa = 3 - lowonganTerpilih.kuota;
+		  alert("Kuota tersisa untuk lowongan ini hanya ");
+		}
+	  
+		pendaftarData.push({
+		  name: name,
+		  email: email,
+		  phone: phone,
+		  vacancy: vacancy,
+		  position: position
+		});
+	  
+		alert('Jumlah pendaftar saat ini: ');
+	  
+		lowonganTerpilih.kuota--;
+	  
+		form.reset();
+		
+      });
+	  
+		
+    });
+    </script>
+
+</body>
+</html>
